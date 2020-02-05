@@ -1393,7 +1393,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         if (CamcorderProfile.hasProfile(mCameraId, profile.quality)) {
             camProfile = CamcorderProfile.get(mCameraId, profile.quality);
         } else {
-            camProfile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH);
+            camProfile = CamcorderProfile.get(mCameraId, CamcorderProfile.QUALITY_HIGH_SPEED_HIGH);
         }
         camProfile.videoBitRate = profile.videoBitRate;
         setCamcorderProfile(camProfile, recordAudio);
@@ -1437,8 +1437,9 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     }
 
     private void setCamcorderProfile(CamcorderProfile profile, boolean recordAudio) {
+        int value = (int) profile.videoFrameRate * 4;
         mMediaRecorder.setOutputFormat(profile.fileFormat);
-        mMediaRecorder.setVideoFrameRate(profile.videoFrameRate);
+        mMediaRecorder.setVideoFrameRate(value);
         mMediaRecorder.setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
         mMediaRecorder.setVideoEncodingBitRate(profile.videoBitRate);
         mMediaRecorder.setVideoEncoder(profile.videoCodec);
